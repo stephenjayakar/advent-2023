@@ -55,9 +55,6 @@ def part_1(games):
         if not failed_round:
             valid_ids.append(game_id)
     answer = sum(valid_ids)
-    # print(valid_ids)
-    # print(answer)
-    # print(2 in valid_ids)
     return answer
 
 def part_2(games):
