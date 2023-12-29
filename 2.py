@@ -33,33 +33,53 @@ def game_test():
     print(tempStr)
     print(g.rounds)
 
+def part_1(games):
+    resources = {
+        'red': 12,
+        'green': 13,
+        'blue': 14,
+    }
+
+    valid_ids = []
+    for i, game in enumerate(games):
+        game_id = i + 1
+        failed_round = False
+        for resource, amount in resources.items():
+            # reminder: this is with replacement
+            for round in game.rounds:
+                used = round.get(resource, 0)
+                if used > amount:
+                    failed_round = True
+                    break
+        if not failed_round:
+            valid_ids.append(game_id)
+    answer = sum(valid_ids)
+    # print(valid_ids)
+    # print(answer)
+    # print(2 in valid_ids)
+    return answer
+
+def part_2(games):
+    powers = []
+    for game in games:
+        maxes = {'red': 0, 'blue': 0, 'green': 0}
+        for round in game.rounds:
+            for color, amount in round.items():
+                if maxes[color] < amount:
+                    maxes[color] = amount
+        # didn't generalize, got lazy
+        power = maxes['red'] * maxes['blue'] * maxes['green']
+        powers.append(power)
+    return sum(powers)
+
+
 games = []
 with open('inputs/2', 'r') as file:
     lines = file.readlines()
 for line in lines:
     games.append(Game(line))
+print(part_1(games))
+print(part_2(games))
 
-resources = {
-    'red': 12,
-    'green': 13,
-    'blue': 14,
-}
-
-valid_ids = []
-for i, game in enumerate(games):
-    game_id = i + 1
-    failed_round = False
-    for resource, amount in resources.items():
-        # reminder: this is with replacement
-        for round in game.rounds:
-            used = round.get(resource, 0)
-            if used > amount:
-                failed_round = True
-                break
-    if not failed_round:
-        valid_ids.append(game_id)
-print(valid_ids)
-print(sum(valid_ids))
-print(2 in valid_ids)
 
 
