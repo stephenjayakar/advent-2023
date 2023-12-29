@@ -6,6 +6,8 @@ e.g.
 Game 1: 4 green, 3 blue, 11 red; 7 red, 5 green, 10 blue; 3 green, 8 blue, 8 red; 4 red, 12 blue; 15 red, 3 green, 10 blue
 """
 
+from functools import reduce
+
 class Game:
     # string is of the form
     # "Game X: {# color,+};+
@@ -24,7 +26,6 @@ class Game:
                 number, color = color_and_count.split(' ')
                 number = int(number)
                 round_mapping[color] = number;
-            print(round_mapping)
             self.rounds.append(round_mapping)
 
 def game_test():
@@ -67,8 +68,7 @@ def part_2(games):
             for color, amount in round.items():
                 if maxes[color] < amount:
                     maxes[color] = amount
-        # didn't generalize, got lazy
-        power = maxes['red'] * maxes['blue'] * maxes['green']
+        power = reduce(lambda x, y: x * y, maxes.values())
         powers.append(power)
     return sum(powers)
 
@@ -80,6 +80,4 @@ for line in lines:
     games.append(Game(line))
 print(part_1(games))
 print(part_2(games))
-
-
 
